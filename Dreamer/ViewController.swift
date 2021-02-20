@@ -2,6 +2,8 @@
 import UIKit
 import CoreBluetooth
 import Charts
+import BlueCapKit
+
 
 
 
@@ -12,6 +14,7 @@ let heartRateMeasurementCharacteristicCBUUID = CBUUID(string: "2A37") //the UUID
 let bodySensorLocationCharacteristicCBUUID = CBUUID(string: "2A39")
 let alarmingMiBand2 = CBUUID(string: "2A06")
 let bluetoothChar = CBUUID(string: "FFE1")
+let serviceProfile = ServiceProfile(uuid: "0000FEC1-0000-3512-2118-0009AF10", name: "Cool Service")
 
 class TestViewController: UIViewController,ChartViewDelegate,UIScrollViewDelegate{
     
@@ -27,6 +30,7 @@ class TestViewController: UIViewController,ChartViewDelegate,UIScrollViewDelegat
     @IBOutlet weak var numberLabel: UILabel!
     @IBAction func alarmVibration(_ sender: Any) {
         alarmingMiBand()
+        print("ALARM TOUCH")
     }
     @IBOutlet weak var lineChartView: LineChartView!
     
@@ -99,9 +103,9 @@ extension TestViewController: CBCentralManagerDelegate {
         
         conectedPeriferals.updateValue(peripheral, forKey: peripheral.name ?? "Nothing")
         
-        print(peripheral.name!)
+        print(peripheral.name ?? "NO peripheral was found")
      
-        if peripheral.name == "BT05" {
+        if peripheral.name == "Mi Smart Band 4" {
             centralManager.stopScan()
             for conectPeriferal in conectedPeriferals.values{
                 centralManager.connect(conectPeriferal)
@@ -124,7 +128,7 @@ extension TestViewController: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
         for service in services {
-            //  print(service)
+            print(service)
             peripheral.discoverCharacteristics(nil, for: service)
         }
     }
@@ -177,7 +181,7 @@ extension TestViewController: CBPeripheralDelegate {
     
     
     func alarmingMiBand() {
-        conectedPeriferals["MI Band 2"]?.writeValue(Data([0x2]), for: alarmCharacteristic!, type: .withoutResponse)
+        conectedPeriferals["Mi Smart Band 4"]?.writeValue(Data([0x2]), for: alarmCharacteristic!, type: .withoutResponse)
     }  
 }
 
