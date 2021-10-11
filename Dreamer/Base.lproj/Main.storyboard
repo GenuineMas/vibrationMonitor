@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZaF-ea-nJC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZaF-ea-nJC">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,48 +17,51 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jyS-x6-H7P">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="242"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jyS-x6-H7P">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="513"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gYB-bE-1xp" customClass="LineChartView" customModule="Charts">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="242"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gYB-bE-1xp" customClass="LineChartView" customModule="Charts">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="513"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="gYB-bE-1xp" firstAttribute="top" secondItem="jyS-x6-H7P" secondAttribute="top" id="4ek-L2-ud9"/>
+                                    <constraint firstItem="gYB-bE-1xp" firstAttribute="leading" secondItem="jyS-x6-H7P" secondAttribute="leading" id="NbV-eA-GPL"/>
+                                    <constraint firstAttribute="bottom" secondItem="gYB-bE-1xp" secondAttribute="bottom" id="PCn-5f-neM"/>
+                                    <constraint firstItem="gYB-bE-1xp" firstAttribute="centerY" secondItem="jyS-x6-H7P" secondAttribute="centerY" id="epi-Tt-gzF"/>
+                                    <constraint firstAttribute="trailing" secondItem="gYB-bE-1xp" secondAttribute="trailing" id="kdE-JY-MmV"/>
+                                    <constraint firstItem="gYB-bE-1xp" firstAttribute="centerX" secondItem="jyS-x6-H7P" secondAttribute="centerX" id="pE0-Ny-Ksc"/>
+                                </constraints>
                             </scrollView>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" alignment="top" spacing="33" translatesAutoresizingMaskIntoConstraints="NO" id="KPE-wP-hR2">
-                                <rect key="frame" x="138" y="299" width="44" height="123"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YrU-NQ-HnC">
-                                        <rect key="frame" x="0.0" y="0.0" width="44" height="60"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lA1-5d-iCv">
-                                        <rect key="frame" x="0.0" y="93" width="39" height="30"/>
-                                        <state key="normal" title="alarm"/>
-                                        <connections>
-                                            <action selector="alarmVibration:" destination="7XJ-pl-e4n" eventType="touchUpInside" id="dc0-Dl-tH1"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lA1-5d-iCv">
+                                <rect key="frame" x="56" y="505" width="284" height="98"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Get BPM">
+                                    <color key="titleColor" systemColor="systemRedColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="alarmVibration:" destination="7XJ-pl-e4n" eventType="touchUpInside" id="dc0-Dl-tH1"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="vCN-RJ-bUn"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="vCN-RJ-bUn" firstAttribute="bottom" secondItem="jyS-x6-H7P" secondAttribute="bottom" constant="110" id="Exq-im-wlr"/>
+                            <constraint firstItem="jyS-x6-H7P" firstAttribute="top" secondItem="vCN-RJ-bUn" secondAttribute="top" id="JlB-UN-UPL"/>
+                            <constraint firstItem="jyS-x6-H7P" firstAttribute="leading" secondItem="vCN-RJ-bUn" secondAttribute="leading" id="cXb-QN-ZUn"/>
+                            <constraint firstItem="jyS-x6-H7P" firstAttribute="centerX" secondItem="w9t-1t-0Ah" secondAttribute="centerX" id="gjb-vn-NGE"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Chart" id="lPy-lV-s5R"/>
                     <connections>
                         <outlet property="lineChartView" destination="gYB-bE-1xp" id="LSQ-Wd-ihk"/>
-                        <outlet property="numberLabel" destination="YrU-NQ-HnC" id="nUQ-id-5D3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g43-8k-RfO" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="472.5" y="111.97183098591549"/>
+            <point key="canvasLocation" x="471.19999999999999" y="111.0944527736132"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VoQ-01-pEI">
@@ -79,4 +83,9 @@
             <point key="canvasLocation" x="-341" y="115"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

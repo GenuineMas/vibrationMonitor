@@ -2,7 +2,6 @@
 import UIKit
 import CoreBluetooth
 import Charts
-import BlueCapKit
 
 
 
@@ -12,9 +11,8 @@ let frame = CGRect(x: 0, y: 61, width: 320, height: 241)  //graph
 let heartRateServiceCBUUID = CBUUID(string: "180D") // the UUID for the Heart Rate service(probabile in hexodecimal phorme)
 let heartRateMeasurementCharacteristicCBUUID = CBUUID(string: "2A37") //the UUID for the Heart Rate service Characteristic
 let bodySensorLocationCharacteristicCBUUID = CBUUID(string: "2A39")
-let alarmingMiBand2 = CBUUID(string: "2A06")
+let heartRateMiBand2 = CBUUID(string: "2A06")
 let bluetoothChar = CBUUID(string: "FFE1")
-let serviceProfile = ServiceProfile(uuid: "0000FEC1-0000-3512-2118-0009AF10", name: "Cool Service")
 
 class TestViewController: UIViewController,ChartViewDelegate,UIScrollViewDelegate{
     
@@ -23,11 +21,11 @@ class TestViewController: UIViewController,ChartViewDelegate,UIScrollViewDelegat
     var alarmCharacteristic : CBCharacteristic?
     var arduinoDevice : CBPeripheral!
     var conectedPeriferals = [String : CBPeripheral]()
-    var vibrationsCount = [Int]()
+    var beatsPerMin = [Int]()
     var currentTime = [Int]()
     
     
-    @IBOutlet weak var numberLabel: UILabel!
+
     @IBAction func alarmVibration(_ sender: Any) {
         alarmingMiBand()
         print("ALARM TOUCH")
@@ -39,7 +37,7 @@ class TestViewController: UIViewController,ChartViewDelegate,UIScrollViewDelegat
  
         //charts
         self.lineChartView.delegate = self
-        let set_a: LineChartDataSet = LineChartDataSet(values:[ChartDataEntry(x: Double(0), y: Double(0))], label: "sensor")
+        let set_a: LineChartDataSet = LineChartDataSet(entries:[ChartDataEntry(x: Double(0), y: Double(0))], label: "sensor")
         set_a.drawCirclesEnabled = false
         set_a.setColor(UIColor.blue)
         
@@ -51,29 +49,23 @@ class TestViewController: UIViewController,ChartViewDelegate,UIScrollViewDelegat
         
         centralManager = CBCentralManager(delegate: self, queue: nil)    // initialization of the centralManager
         // Make the digits monospaces to avoid shifting when the numbers change
-        numberLabel.font = UIFont.monospacedDigitSystemFont(ofSize: numberLabel.font!.pointSize, weight: .regular)
+
         
     }
     
     // add point
     var i = 1
     func updateCounter() {
-        if vibrationsCount.count > 10 && i <= vibrationsCount.count-1  {
-            self.lineChartView.data?.addEntry(ChartDataEntry(x: Double(currentTime[i]), y: Double(vibrationsCount[i])), dataSetIndex: 0)
+        if beatsPerMin.count > 10 && i <= beatsPerMin.count-1  {
+            self.lineChartView.data?.addEntry(ChartDataEntry(x: Double(currentTime[i]), y: Double(beatsPerMin[i])), dataSetIndex: 0)
             self.lineChartView.setVisibleXRange(minXRange: Double(1), maxXRange: Double(1000))
             self.lineChartView.notifyDataSetChanged()
             self.lineChartView.moveViewToX(Double(i))
             i = i + 1
         }
-        
-        
-    }
-    
 
-    func onHeartRateReceived(_ heartRate: Int) {
-        numberLabel.text = String(heartRate)
-        print("BPM: \(heartRate)")
     }
+
 }
 
 
@@ -129,6 +121,7 @@ extension TestViewController: CBPeripheralDelegate {
         guard let services = peripheral.services else { return }
         for service in services {
             print(service)
+            
             peripheral.discoverCharacteristics(nil, for: service)
         }
     }
@@ -140,14 +133,16 @@ extension TestViewController: CBPeripheralDelegate {
         for characteristic in characteristics {
             // print(characteristic)
             if characteristic.properties.contains(.read) {
-                //print("\(characteristic.uuid): properties contains .read")
+                print("\(characteristic.uuid): properties contains .read")
                 peripheral.readValue(for: characteristic)
+                
+                
             }
             if characteristic.properties.contains(.notify) {
                 // print("\(characteristic.uuid): properties contains .notify")
                 peripheral.setNotifyValue(true, for: characteristic)
             }
-            if characteristic.uuid == alarmingMiBand2 {
+            if characteristic.uuid == heartRateMeasurementCharacteristicCBUUID {
                 alarmCharacteristic = characteristic
             }
         }
@@ -158,30 +153,41 @@ extension TestViewController: CBPeripheralDelegate {
         
         switch characteristic.uuid {
             
-        case bluetoothChar :
+        case heartRateMeasurementCharacteristicCBUUID :
+            print("characteristic VALUE",heartRate(from:characteristic))
             if let sensorData = NSString.init(data:characteristic.value!, encoding: String.Encoding.utf8.rawValue) as String?{
                 
-                numberLabel.text = sensorData
-                //sleepData.append(Int(characteristic.value!))
-                
-                let number = (sensorData as NSString).integerValue
+
+                let number = heartRate(from:characteristic)
                 print(number)
-                vibrationsCount.append(number)
-                currentTime.append(vibrationsCount.count)
-                //linePlotData = sleepData.map{(Double($0))}
-                
-                // print(currentTime)
-                
+                beatsPerMin.append(number)
+                currentTime.append(beatsPerMin.count)
+
             }
-            
+
         default:
             print("Unhandled Characteristic UUID: \(characteristic.uuid)")
         }
     }
-    
+    private func heartRate(from characteristic: CBCharacteristic) -> Int {
+      guard let characteristicData = characteristic.value else { return -1 }
+      let byteArray = [UInt8](characteristicData)
+
+      let firstBitValue = byteArray[0] & 0x01
+      if firstBitValue == 0 {
+        // Heart Rate Value Format is in the 2nd byte
+        return Int(byteArray[1])
+      } else {
+        // Heart Rate Value Format is in the 2nd and 3rd bytes
+        return (Int(byteArray[1]) << 8) + Int(byteArray[2])
+      }
+    }
+
     
     func alarmingMiBand() {
-        conectedPeriferals["Mi Smart Band 4"]?.writeValue(Data([0x2]), for: alarmCharacteristic!, type: .withoutResponse)
+        conectedPeriferals["Mi Smart Band 4"]?.readValue(for: alarmCharacteristic!)
+        
+        print("BPM:", heartRate(from: alarmCharacteristic!) )
     }  
 }
 
