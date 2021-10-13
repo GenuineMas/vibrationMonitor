@@ -12,4 +12,4 @@ If you want to use different type of heart rate device ,try to change name of co
         }
     })
     
-    ![](vibrationMonitor/Dreamer/Assets.xcassets/screenShot.imageset/screenShot.PNG)
+   ![screenShot](https://user-images.githubusercontent.com/29837060/137176418-35c725c7-feb6-40df-a275-478a17d3d744.PNG)
