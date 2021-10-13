@@ -23,12 +23,13 @@ class TestViewController: UIViewController,ChartViewDelegate,UIScrollViewDelegat
     var conectedPeriferals = [String : CBPeripheral]()
     var beatsPerMin = [Int]()
     var currentTime = [Int]()
+
     
     
 
-    @IBAction func alarmVibration(_ sender: Any) {
-        alarmingMiBand()
-        print("ALARM TOUCH")
+    @IBAction func getBPMData(_ sender: Any) {
+        getBMP()
+        print("Get Data")
     }
     @IBOutlet weak var lineChartView: LineChartView!
     
@@ -184,10 +185,13 @@ extension TestViewController: CBPeripheralDelegate {
     }
 
     
-    func alarmingMiBand() {
-        conectedPeriferals["Mi Smart Band 4"]?.readValue(for: alarmCharacteristic!)
+    func getBMP() {
         
-        print("BPM:", heartRate(from: alarmCharacteristic!) )
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
+            self.conectedPeriferals["Mi Smart Band 4"]?.readValue(for: self.alarmCharacteristic!)
+            print("BPM:", self.heartRate(from: self.alarmCharacteristic!) )
+
+        }
     }  
 }
 

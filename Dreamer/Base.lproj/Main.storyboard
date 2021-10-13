@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZaF-ea-nJC">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -13,15 +11,15 @@
         <scene sceneID="WbX-tU-d9G">
             <objects>
                 <viewController id="7XJ-pl-e4n" customClass="TestViewController" customModule="Dreamer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="w9t-1t-0Ah">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="w9t-1t-0Ah">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jyS-x6-H7P">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="513"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="446"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gYB-bE-1xp" customClass="LineChartView" customModule="Charts">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="513"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="446"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
@@ -41,7 +39,7 @@
                                     <color key="titleColor" systemColor="systemRedColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="alarmVibration:" destination="7XJ-pl-e4n" eventType="touchUpInside" id="dc0-Dl-tH1"/>
+                                    <action selector="getBPMData:" destination="7XJ-pl-e4n" eventType="touchUpInside" id="dc0-Dl-tH1"/>
                                 </connections>
                             </button>
                         </subviews>
