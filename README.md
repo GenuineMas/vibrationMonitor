@@ -11,4 +11,4 @@ If you want to use different type of heart rate decvice ,try to change name of c
         }
     }
     
-    ![alt text](https://github.com/GenuineMas/vibrationMonitor/blob/master/Dreamer/Assets.xcassets/screenShot.imageset/screenShot.PNG?raw=true)
+    ![alt text](https://github.com/GenuineMas/vibrationMonitor/blob/master/Dreamer/Assets.xcassets/screenShot.imageset/screenShot.PNG)
